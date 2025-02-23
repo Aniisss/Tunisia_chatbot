@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tunisia Tourism Chatbot</title>
+    
+    <!-- Rasa Web Chat CSS -->
+    <link href="https://storage.googleapis.com/mrbot-cdn/webchat-latest.css" rel="stylesheet">
+    
+    <style>
+        /* Custom styling for the widget */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        /* Position widget in bottom right corner */
+        .webchat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        /* Custom theme colors */
+        :root {
+            --rasa-primary: #007bff;
+            --rasa-secondary: #0056b3;
+            --rasa-text: #333333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Your website content here -->
+    <h1>Welcome to Tunisia Tourism</h1>
+    <p>Explore our culture and traditions!</p>
+
+    <!-- Chat widget container -->
+    <div id="webchat"></div>
+
+    <!-- Rasa Web Chat JavaScript -->
+    <script src="https://storage.googleapis.com/mrbot-cdn/webchat-latest.js"></script>
+    <script>
+        // Initialize the chat widget
+        WebChat({
+            initPayload: "/get_started",
+            socketUrl: "http://localhost:5005",
+            socketPath: "/socket.io/",
+            title: "Tunisia Tourism Assistant",
+            subtitle: "Ask me about culture, traditions, and places to visit!",
+            inputTextFieldHint: "Type your question here...",
+            connectingText: "Connecting to assistant...",
+            hideWhenNotConnected: true,
+            fullScreenMode: false,
+            showFullScreenButton: true,
+            profileAvatar: "https://example.com/avatar.png",
+            params: {
+                storage: "session",
+                images: {
+                    dims: {
+                        width: 300,
+                        height: 200
+                    }
+                }
+            },
+            customData: {
+                "language": "en"
+            }
+        }, document.getElementById("webchat"));
+    </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+version: "3.1"
+
+nlu:
+  - intent: ask_chatgpt
+    examples: |
+      - how to simulate
+      - Can you answer this question?
+      - What is the command ?
+      - fix this 
+      - Explain how 
+      - Any user input will match this intent.

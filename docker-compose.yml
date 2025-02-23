@@ -1,0 +1,45 @@
+
+
+services:
+  rasa:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: rasa_server
+    ports:
+      - "5005:5005"
+    volumes:
+      - .:/app
+    depends_on:
+      - actions
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: rasa run --enable-api --cors "*"
+
+  actions:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: rasa_actions
+    ports:
+      - "5055:5055"
+    volumes:
+      - ./actions:/app
+    depends_on:
+      - llama_index_api
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: rasa run actions
+
+  llama_index_api:
+    build:
+      context: ./llamaindex_api
+      dockerfile: dockerfile  # Use a separate Dockerfile for the FastAPI server
+    container_name: llama_index_api
+    ports:
+      - "8000:8000"  # Expose the FastAPI server port
+    volumes:
+      - ./Tunisia_Data:/app/Tunisia_Data  # Mount the data directory
+      - ./storage/cache:/app/storage/cache  # Mount the storage directory
+    environment:
+      - PYTHONUNBUFFERED=1
