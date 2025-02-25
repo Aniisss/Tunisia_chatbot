@@ -11,7 +11,7 @@ import time
 import sys
 
 import logging
-from context_history import get_openai_context
+from actions.context_history import get_openai_context
 
 # Load the environment variables
 load_dotenv(override=True)
