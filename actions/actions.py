@@ -8,12 +8,20 @@ import requests
 import os
 import json
 import time
+import sys
 
-from . import logger
-from .context_history import get_openai_context
+import logging
+from context_history import get_openai_context
 
 # Load the environment variables
 load_dotenv(override=True)
+
+# Create a logger instance for debugging 
+logger = logging.getLogger(__name__)
+stdoutHandler = logging.StreamHandler(stream=sys.stdout)
+fileHandler = logging.FileHandler("logs.txt", mode="w")
+logger.addHandler(stdoutHandler)
+logger.addHandler(fileHandler)
 
 # Definition of the system role to focus on Tunisia
 system_role = (
@@ -98,6 +106,7 @@ class ActionHandleQuery(Action):
                   "top_k": 0,
                 })
             )
+
             # Extract the refined response
             refined_response = response.json()["choices"][0].get("message").get("content")
 

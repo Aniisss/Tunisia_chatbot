@@ -3,3 +3,4 @@ fastapi==0.115.8
 python-dotenv==1.0.1
 llama-index-llms-openrouter==0.3.1
 llama-index-embeddings-huggingface==0.5.1
+uvicorn==0.34.0

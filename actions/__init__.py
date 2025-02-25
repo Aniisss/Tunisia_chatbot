@@ -1,12 +1,4 @@
-import logging
-import sys
 
-# Create a logger instance for debugging 
-logger = logging.getLogger(__name__)
-stdoutHandler = logging.StreamHandler(stream=sys.stdout)
-fileHandler = logging.FileHandler("logs.txt", mode="w")
-logger.addHandler(stdoutHandler)
-logger.addHandler(fileHandler)
 '''
 from dotenv import load_dotenv
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
@@ -102,8 +94,8 @@ def get_index_from_documents(docs_dir: str, persist_dir: str) -> VectorStoreInde
 
 # create or update the index
 index = get_index_from_documents(
-        docs_dir="Tunisia_Data",
-        persist_dir="storage/cache"
+    docs_dir="Tunisia_Data",
+    persist_dir="storage/cache"
 )
 
 '''

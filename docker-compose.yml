@@ -1,45 +1,52 @@
-
+version: '3.8'
 
 services:
-  rasa:
+  rasa_base:
     build:
       context: .
       dockerfile: dockerfile
+    image: rasa_base  # Unified image for rasa and actions
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - .:/app
+
+  rasa:
+    image: rasa_base
     container_name: rasa_server
     ports:
       - "5005:5005"
-    volumes:
-      - .:/app
     depends_on:
       - actions
-    environment:
-      - PYTHONUNBUFFERED=1
     command: rasa run --enable-api --cors "*"
+    restart: unless-stopped
 
   actions:
-    build:
-      context: .
-      dockerfile: dockerfile
+    image: rasa_base
     container_name: rasa_actions
     ports:
       - "5055:5055"
     volumes:
-      - ./actions:/app
+      - ./actions:/app/actions  # Restrict volume to actions only
     depends_on:
       - llama_index_api
-    environment:
-      - PYTHONUNBUFFERED=1
     command: rasa run actions
+    env_file:
+      - .env
+    restart: unless-stopped
 
   llama_index_api:
     build:
       context: ./llamaindex_api
-      dockerfile: dockerfile  # Use a separate Dockerfile for the FastAPI server
+      dockerfile: dockerfile
     container_name: llama_index_api
     ports:
-      - "8000:8000"  # Expose the FastAPI server port
+      - "8000:8000"
     volumes:
-      - ./Tunisia_Data:/app/Tunisia_Data  # Mount the data directory
-      - ./storage/cache:/app/storage/cache  # Mount the storage directory
+      - ./Tunisia_Data:/app/Tunisia_Data
+      - ./storage/cache:/app/storage/cache
     environment:
       - PYTHONUNBUFFERED=1
+    env_file:
+      - .env
+    restart: unless-stopped
